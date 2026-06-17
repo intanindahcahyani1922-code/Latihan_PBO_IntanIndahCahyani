@@ -1,8 +1,33 @@
 <?php
-// FILE: SubclassTiket.php
-require_once 'Tiket.php';
+// FILE: subclasstiket.php
 
-// 1. Subclass TiketRegular
+// 1. CLASS INDUK (Taruh di sini agar dibaca oleh semua subclass & file tiket.php)
+class Tiket {
+    protected $id_tiket;
+    protected $nama_film;
+    protected $jadwal_tayang;
+    protected $jumlah_kursi;
+    protected $hargaDasarTiket;
+
+    public function __construct($id, $film, $jadwal, $kursi, $harga) {
+        $this->id_tiket = $id;
+        $this->nama_film = $film;
+        $this->jadwal_tayang = $jadwal;
+        $this->jumlah_kursi = $kursi;
+        $this->hargaDasarTiket = $harga;
+    }
+
+    public function getId() { return $this->id_tiket; }
+    public function getNamaFilm() { return $this->nama_film; }
+    public function getJadwal() { return $this->jadwal_tayang; }
+    public function getKursi() { return $this->jumlah_kursi; }
+    public function getHargaDasar() { return $this->hargaDasarTiket; }
+
+    public function hitungTotalHarga() { return 0; }
+    public function tampilkanInfoFasilitas() { return ""; }
+}
+
+// 2. SUBCLASS - TIKET REGULAR
 class TiketRegular extends Tiket {
     private $tipeAudio;
     private $lokasiBaris;
@@ -13,7 +38,6 @@ class TiketRegular extends Tiket {
         $this->lokasiBaris = $lokasiBaris;
     }
 
-    // TAHAP 5: Method Overriding Tarif Standar Murni
     public function hitungTotalHarga() {
         return $this->jumlah_kursi * $this->hargaDasarTiket;
     }
@@ -23,7 +47,7 @@ class TiketRegular extends Tiket {
     }
 }
 
-// 2. Subclass TiketIMAX
+// 3. SUBCLASS - TIKET IMAX
 class TiketIMAX extends Tiket {
     private $kacamata3dId;
     private $efekGerakFitur;
@@ -34,18 +58,17 @@ class TiketIMAX extends Tiket {
         $this->efekGerakFitur = $efekGerakFitur;
     }
 
-    // TAHAP 5: Method Overriding Tambahan Biaya Layar Lebar & Audio Flat Rp35.000
     public function hitungTotalHarga() {
         return ($this->jumlah_kursi * $this->hargaDasarTiket) + 35000;
     }
 
     public function tampilkanInfoFasilitas() {
-        $kacamata = $this->kacamata3dId ? "Kacamata ID: " . $this->kacamata3dId : "Tanpa Kacamata 3D";
+        $kacamata = $this->kacamata3dId ? "Kacamata ID: " . $this->kacamata3dId : "Tanpa Kacamata";
         return "🎬 Efek: " . ($this->efekGerakFitur ?? '-') . " (" . $kacamata . ")";
     }
 }
 
-// 3. Subclass TiketVelvet
+// 4. SUBCLASS - TIKET VELVET
 class TiketVelvet extends Tiket {
     private $bantalSelimutPack;
     private $layananButler;
@@ -56,7 +79,6 @@ class TiketVelvet extends Tiket {
         $this->layananButler = $layananButler;
     }
 
-    // TAHAP 5: Method Overriding Surcharge Kelas Premium Sebesar 50%
     public function hitungTotalHarga() {
         return ($this->jumlah_kursi * $this->hargaDasarTiket) * 1.50;
     }
