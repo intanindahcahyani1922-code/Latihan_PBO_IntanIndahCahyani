@@ -1,5 +1,5 @@
 <?php
-// FILE: koneksi_toko.php
+
 
 class Database {
     private $host = "localhost";

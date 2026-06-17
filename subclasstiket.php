@@ -1,30 +1,29 @@
 <?php
 // FILE: SubclassTiket.php
-require_once 'tiket.php'; // Menyertakan class induk Tiket
+require_once 'Tiket.php';
 
-// 1. Subclass TiketRegular memiliki tipeAudio dan lokasiBaris
+// 1. Subclass TiketRegular
 class TiketRegular extends Tiket {
     private $tipeAudio;
     private $lokasiBaris;
 
     public function __construct($id, $film, $jadwal, $kursi, $harga, $tipeAudio, $lokasiBaris) {
-        // Melempar data global ke konstruktor milik parent class (Tiket)
         parent::__construct($id, $film, $jadwal, $kursi, $harga);
         $this->tipeAudio = $tipeAudio;
         $this->lokasiBaris = $lokasiBaris;
     }
 
-    // Mengisi badan fungsi dari abstract method induk
+    // TAHAP 5: Method Overriding Tarif Standar Murni
     public function hitungTotalHarga() {
-        return $this->hargaDasarTiket; // Regular tidak ada tambahan biaya
+        return $this->jumlah_kursi * $this->hargaDasarTiket;
     }
 
     public function tampilkanInfoFasilitas() {
-        return "Audio: " . ($this->tipeAudio ?? '-') . " | Baris: " . ($this->lokasiBaris ?? '-');
+        return "🔊 Audio: " . ($this->tipeAudio ?? '-') . " | 💺 Baris: " . ($this->lokasiBaris ?? '-');
     }
 }
 
-// 2. Subclass TiketIMAX memiliki kacamata3dId dan efekGerakFitur
+// 2. Subclass TiketIMAX
 class TiketIMAX extends Tiket {
     private $kacamata3dId;
     private $efekGerakFitur;
@@ -35,17 +34,18 @@ class TiketIMAX extends Tiket {
         $this->efekGerakFitur = $efekGerakFitur;
     }
 
+    // TAHAP 5: Method Overriding Tambahan Biaya Layar Lebar & Audio Flat Rp35.000
     public function hitungTotalHarga() {
-        return $this->hargaDasarTiket; 
+        return ($this->jumlah_kursi * $this->hargaDasarTiket) + 35000;
     }
 
     public function tampilkanInfoFasilitas() {
         $kacamata = $this->kacamata3dId ? "Kacamata ID: " . $this->kacamata3dId : "Tanpa Kacamata 3D";
-        return "Fitur: " . ($this->efekGerakFitur ?? '-') . " (" . $kacamata . ")";
+        return "🎬 Efek: " . ($this->efekGerakFitur ?? '-') . " (" . $kacamata . ")";
     }
 }
 
-// 3. Subclass TiketVelvet memiliki bantalSelimutPack dan layananButler
+// 3. Subclass TiketVelvet
 class TiketVelvet extends Tiket {
     private $bantalSelimutPack;
     private $layananButler;
@@ -56,13 +56,14 @@ class TiketVelvet extends Tiket {
         $this->layananButler = $layananButler;
     }
 
+    // TAHAP 5: Method Overriding Surcharge Kelas Premium Sebesar 50%
     public function hitungTotalHarga() {
-        return $this->hargaDasarTiket; 
+        return ($this->jumlah_kursi * $this->hargaDasarTiket) * 1.50;
     }
 
     public function tampilkanInfoFasilitas() {
         $bantal = $this->bantalSelimutPack == 1 ? "Include Bantal & Selimut" : "Tanpa Bantal";
         $butler = $this->layananButler == 1 ? "Layanan Butler Aktif" : "Tanpa Butler";
-        return $bantal . " | " . $butler;
+        return "🛌 " . $bantal . " | 🤵 " . $butler;
     }
 }

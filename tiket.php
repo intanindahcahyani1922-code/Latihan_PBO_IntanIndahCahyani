@@ -1,5 +1,5 @@
 <?php
-// FILE: Tiket.php
+
 
 abstract class Tiket {
     // Properti Terenkapsulasi (protected) sesuai ketentuan soal
