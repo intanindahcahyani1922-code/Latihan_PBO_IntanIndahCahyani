@@ -1,6 +1,6 @@
 <?php
 // FILE: tiket.php
-require_once 'toko_model.php';
+require_once 'toko_model.php'; // Ini akan otomatis memanggil subclasstiket dan Tiket.php induknya
 
 $model = new ModelTiket();
 $semuaTiket = $model->ambilSemuaObjek();
@@ -33,11 +33,7 @@ $semuaTiket = $model->ambilSemuaObjek();
     <table>
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nama Film</th>
-                <th>Jadwal Tayang</th>
-                <th>Jumlah Kursi</th>
-                <th>Harga Dasar</th>
                 <th>Jenis Studio</th>
                 <th>Spesifikasi Fasilitas Unik (Polimorfik)</th>
                 <th>Total Harga (Polimorfik)</th>
@@ -47,7 +43,6 @@ $semuaTiket = $model->ambilSemuaObjek();
             <?php if (!empty($semuaTiket)): ?>
                 <?php foreach ($semuaTiket as $tiket): ?>
                     <?php 
-                        // Deteksi nama class objek secara dinamis untuk warna badge
                         $className = get_class($tiket);
                         $badgeClass = 'bg-regular';
                         $studioLabel = 'Regular';
@@ -56,11 +51,7 @@ $semuaTiket = $model->ambilSemuaObjek();
                         if ($className === 'TiketVelvet') { $badgeClass = 'bg-velvet'; $studioLabel = 'Velvet'; }
                     ?>
                     <tr>
-                        <td><?= $tiket->getId(); ?></td>
-                        <td><strong><?= htmlspecialchars($tiket->getNamaFilm()); ?></strong></td>
-                        <td><?= $tiket->getJadwal(); ?></td>
-                        <td><?= $tiket->getKursi(); ?> Seat</td>
-                        <td>Rp <?= number_format($tiket->getHargaDasar(), 0, ',', '.'); ?></td>
+                        <td><strong>Film Terpilih</strong></td>
                         <td><span class="badge <?= $badgeClass; ?>"><?= $studioLabel; ?></span></td>
                         <td><small><?= $tiket->tampilkanInfoFasilitas(); ?></small></td>
                         <td class="harga-total">Rp <?= number_format($tiket->hitungTotalHarga(), 0, ',', '.'); ?></td>
@@ -68,7 +59,7 @@ $semuaTiket = $model->ambilSemuaObjek();
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8" style="text-align: center; color: #64748b;">Belum ada data tiket dinamis dalam database.</td>
+                    <td colspan="4" style="text-align: center; color: #64748b;">Belum ada data tiket dinamis dalam database.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
