@@ -39,9 +39,8 @@ class TiketRegular extends Tiket {
     }
 
     public function hitungTotalHarga() {
-        return $this->jumlah_kursi * $this->hargaDasarTiket;
+        return $this->hargaDasarTiket;
     }
-
     public function tampilkanInfoFasilitas() {
         return "🔊 Audio: " . ($this->tipeAudio ?? '-') . " | 💺 Baris: " . ($this->lokasiBaris ?? '-');
     }
@@ -59,7 +58,7 @@ class TiketIMAX extends Tiket {
     }
 
     public function hitungTotalHarga() {
-        return ($this->jumlah_kursi * $this->hargaDasarTiket) + 35000;
+        return $this->hargaDasarTiket + 35000;
     }
 
     public function tampilkanInfoFasilitas() {
@@ -80,7 +79,7 @@ class TiketVelvet extends Tiket {
     }
 
     public function hitungTotalHarga() {
-        return ($this->jumlah_kursi * $this->hargaDasarTiket) * 1.50;
+        return $this->hargaDasarTiket * 1.50;
     }
 
     public function tampilkanInfoFasilitas() {
